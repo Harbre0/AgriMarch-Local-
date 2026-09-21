@@ -1,0 +1,54 @@
+name: Build APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Installer Java (nécessaire pour Android)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Préparer le dossier www
+        run: |
+          mkdir -p www
+          cp index.html www/
+
+      - name: Initialiser npm
+        run: npm init -y
+
+      - name: Installer Capacitor
+        run: npm install @capacitor/core @capacitor/cli
+
+      - name: Initialiser Capacitor
+        run: npx cap init "AgriMarchéLocal" "com.agrimarchelocal.app" --web-dir=www
+
+      - name: Ajouter la plateforme Android
+        run: npx cap add android
+
+      - name: Synchroniser
+        run: npx cap sync android
+
+      - name: Compiler l'APK
+        working-directory: android
+        run: chmod +x gradlew && ./gradlew assembleDebug
+
+      - name: Publier l'APK comme artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: agrimarchelocal-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
