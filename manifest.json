@@ -1,0 +1,16 @@
+{
+  "name": "AgriMarchéLocal",
+  "short_name": "AgriMarché",
+  "description": "Le carnet intelligent des débouchés agropastoraux et agroalimentaires locaux.",
+  "lang": "fr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0B6B2E",
+  "theme_color": "#0F3A24",
+  "icons": [
+    { "src": "icon-v2-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-v2-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}
